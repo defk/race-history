@@ -6,16 +6,20 @@ import (
 	"io/ioutil"
 )
 
-func (config *config) GetHttpServerUrl() string {
-
-	return fmt.Sprintf("%s:%d",
-		config.Servers.Http.Host,
-		config.Servers.Http.Port)
+type AppConfig interface {
+	GetHttpServerUrl() string
 }
 
-func ReadConfig() config {
+func (c Config) GetHttpServerUrl() string {
 
-	conf := config{}
+	return fmt.Sprintf("%s:%d",
+		c.Servers.Http.Host,
+		c.Servers.Http.Port)
+}
+
+func ReadConfig() Config {
+
+	config := Config{}
 	data, err := ioutil.ReadFile("env.json")
 
 	if err != nil {
@@ -23,17 +27,17 @@ func ReadConfig() config {
 		panic(err.Error())
 	}
 
-	err = json.Unmarshal(data, &conf)
+	err = json.Unmarshal(data, &config)
 
 	if err != nil {
 
 		panic(err.Error())
 	}
 
-	return conf
+	return config
 }
 
-type config struct {
+type Config struct {
 	Servers struct {
 		Http struct {
 			Host string `json:"host"`

@@ -1,14 +1,16 @@
 package main
 
+import "C"
 import (
 	"github.com/gin-gonic/gin"
 	"race-history-3/libs"
 )
 
-var config = libs.ReadConfig()
+var Config libs.AppConfig
 
 func main() {
 
+	Config = libs.ReadConfig()
 	start()
 }
 
@@ -18,7 +20,7 @@ func start() {
 
 	r.GET("/ping", pong)
 
-	err := r.Run(config.GetHttpServerUrl())
+	err := r.Run(Config.GetHttpServerUrl())
 
 	if err != nil {
 		panic(err.Error())
