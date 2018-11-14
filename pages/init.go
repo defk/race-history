@@ -13,18 +13,11 @@ func Init(Config libs.AppConfig) {
 
 	r := gin.Default()
 
-	r.GET("/ping", pong)
+	r.GET("/ping", Ping)
 
 	err := r.Run(Conf.GetHttpServerUrl())
 
 	if err != nil {
 		panic(err.Error())
 	}
-}
-
-func pong(c *gin.Context) {
-
-	c.JSON(200, gin.H{
-		"message": Conf.GetHttpServerUrl(),
-	})
 }
