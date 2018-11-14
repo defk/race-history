@@ -14,6 +14,8 @@ func Init(Config libs.AppConfig) {
 	r := gin.Default()
 
 	r.GET("/ping", Ping)
+	r.GET("/championships", Championships)
+	r.GET("/championship/:id", Championship)
 
 	err := r.Run(Conf.GetHttpServerUrl())
 
