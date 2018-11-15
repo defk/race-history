@@ -85,7 +85,7 @@ CREATE TABLE public.data (
     round_id integer NOT NULL,
     team_id integer NOT NULL,
     driver_id integer NOT NULL,
-    result_points_id integer NOT NULL
+    result_point_id integer NOT NULL
 );
 
 

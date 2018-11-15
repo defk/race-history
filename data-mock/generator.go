@@ -6,19 +6,26 @@ import (
 	"fmt"
 	"github.com/lib/pq"
 	"io/ioutil"
+	"math/rand"
 	"race-history-3/libs"
 )
 
 type Championship struct {
-	Id       int    `json:"id"`
-	Title    string `json:"title"`
-	ResultId int    `json:"result_id"`
-	RoundIds []int  `json:"round_ids"`
+	Id          int           `json:"id"`
+	Title       string        `json:"title"`
+	ResultId    int           `json:"result_id"`
+	RoundIds    []int         `json:"round_ids"`
+	TeamDrivers []TeamDrivers `json:"teams_drivers"`
 }
 
 type CommonDataItem struct {
 	Id    int    `json:"id"`
 	Title string `json:"title"`
+}
+
+type TeamDrivers struct {
+	TeamId  int   `json:"team_id"`
+	Drivers []int `json:"drivers"`
 }
 
 type ResultPointer struct {
@@ -29,13 +36,26 @@ type ResultPointer struct {
 	OrderPoints int    `json:"order_points"`
 }
 
+type ResultExt struct {
+	Positions []int `json:"positions"`
+	Others    struct {
+		BestLap      int `json:"bestLap"`
+		PolePosition int `json:"polePosition"`
+	} `json:"others"`
+}
+
+type ResultRow struct {
+	ChampionshipId, RoundId, TeamId, DriverId, ResultPointId int
+}
+
 type Mock struct {
-	Championships []Championship   `json:"championships"`
-	Rounds        []CommonDataItem `json:"rounds"`
-	Teams         []CommonDataItem `json:"teams"`
-	Drivers       []CommonDataItem `json:"drivers"`
-	Results       []CommonDataItem `json:"results"`
-	ResultsPoints []ResultPointer  `json:"result_points"`
+	Championships []Championship       `json:"championships"`
+	Rounds        []CommonDataItem     `json:"rounds"`
+	Teams         []CommonDataItem     `json:"teams"`
+	Drivers       []CommonDataItem     `json:"drivers"`
+	Results       []CommonDataItem     `json:"results"`
+	ResultsPoints []ResultPointer      `json:"result_points"`
+	ResultExt     map[string]ResultExt `json:"results_ext"`
 }
 
 var Conf libs.AppConfig
@@ -90,6 +110,106 @@ func main() {
 
 	// 6. Заливаем drivers
 	loadCommonRows(db, "drivers", items.Drivers)
+
+	loadResultRow(db, generateResultsMock(items))
+}
+
+func generateResultsMock(items Mock) []ResultRow {
+
+	rows := make([]ResultRow, 0)
+
+	for _, champ := range items.Championships {
+
+		champId := champ.Id
+
+		for _, roundId := range champ.RoundIds {
+
+			positions := items.ResultExt["v1"].Positions
+
+			driverBestLap := rand.Intn(16)
+			driverPolePosition := rand.Intn(16)
+
+			for _, teamConfig := range champ.TeamDrivers {
+
+				teamId := teamConfig.TeamId
+
+				for _, driverId := range teamConfig.Drivers {
+
+					if driverId == driverBestLap {
+
+						rows = append(
+							rows,
+							ResultRow{
+								DriverId:       driverId,
+								TeamId:         teamId,
+								ChampionshipId: champId,
+								RoundId:        roundId,
+								ResultPointId:  items.ResultExt["v1"].Others.BestLap,
+							})
+					}
+
+					if driverId == driverPolePosition {
+
+						rows = append(
+							rows,
+							ResultRow{
+								DriverId:       driverId,
+								TeamId:         teamId,
+								ChampionshipId: champId,
+								RoundId:        roundId,
+								ResultPointId:  items.ResultExt["v1"].Others.PolePosition,
+							})
+					}
+
+					positionKey := rand.Intn(len(positions))
+					positionNextKey := positionKey + 1
+					positionId := positions[positionKey]
+					positions = append(positions[:positionKey], positions[positionNextKey:]...)
+
+					rows = append(
+						rows,
+						ResultRow{
+							DriverId:       driverId,
+							TeamId:         teamId,
+							ChampionshipId: champId,
+							RoundId:        roundId,
+							ResultPointId:  positionId,
+						})
+				}
+			}
+		}
+	}
+
+	return rows
+}
+
+func loadResultRow(db *sql.DB, rows []ResultRow) {
+
+	txn, stmt := buildCopyIn(
+		db,
+		pq.CopyIn(
+			"data",
+			"championship_id",
+			"round_id",
+			"team_id",
+			"driver_id",
+			"result_point_id",
+		))
+
+	for _, row := range rows {
+
+		_, err := stmt.Exec(row.ChampionshipId, row.RoundId, row.TeamId, row.DriverId, row.ResultPointId)
+
+		libs.ShowError(err)
+	}
+
+	err := stmt.Close()
+
+	libs.ShowError(err)
+
+	err = txn.Commit()
+
+	libs.ShowError(err)
 }
 
 func loadCommonRows(db *sql.DB, table string, rows []CommonDataItem) {
