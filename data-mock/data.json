@@ -1,0 +1,347 @@
+{
+  "championships": [
+    {
+      "id": 1,
+      "title": "зима-лето, 2016",
+      "result_id": 1,
+      "round_ids": [
+        1,
+        4,
+        5,
+        7,
+        9,
+        10,
+        12
+      ]
+    },
+    {
+      "id": 2,
+      "title": "лето-зима, 2016",
+      "result_id": 1,
+      "round_ids": [
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12
+      ]
+    },
+    {
+      "id": 3,
+      "title": "зима-лето, 2017",
+      "result_id": 1,
+      "round_ids": [
+        1,
+        4,
+        5,
+        7,
+        9,
+        10,
+        12
+      ]
+    },
+    {
+      "id": 4,
+      "title": "лето-зима, 2016",
+      "result_id": 1,
+      "round_ids": [
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        10
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": 1,
+      "title": "v1"
+    }
+  ],
+  "result_points": [
+    {
+      "id": 1,
+      "result_id": 1,
+      "alias": "bestLap",
+      "points": 0,
+      "order_points": 5
+    },
+    {
+      "id": 2,
+      "result_id": 1,
+      "alias": "polePosition",
+      "points": 0,
+      "order_points": 10
+    },
+    {
+      "id": 3,
+      "result_id": 1,
+      "alias": "1st",
+      "points": 20,
+      "order_points": 160
+    },
+    {
+      "id": 4,
+      "result_id": 1,
+      "alias": "2st",
+      "points": 10,
+      "order_points": 150
+    },
+    {
+      "id": 5,
+      "result_id": 1,
+      "alias": "3st",
+      "points": 7,
+      "order_points": 140
+    },
+    {
+      "id": 6,
+      "result_id": 1,
+      "alias": "4st",
+      "points": 5,
+      "order_points": 130
+    },
+    {
+      "id": 7,
+      "result_id": 1,
+      "alias": "5st",
+      "points": 4,
+      "order_points": 120
+    },
+    {
+      "id": 8,
+      "result_id": 1,
+      "alias": "6st",
+      "points": 3,
+      "order_points": 110
+    },
+    {
+      "id": 9,
+      "result_id": 1,
+      "alias": "7st",
+      "points": 2,
+      "order_points": 100
+    },
+    {
+      "id": 10,
+      "result_id": 1,
+      "alias": "8st",
+      "points": 1,
+      "order_points": 90
+    },
+    {
+      "id": 11,
+      "result_id": 1,
+      "alias": "9st",
+      "points": 0,
+      "order_points": 80
+    },
+    {
+      "id": 12,
+      "result_id": 1,
+      "alias": "10st",
+      "points": 0,
+      "order_points": 70
+    },
+    {
+      "id": 13,
+      "result_id": 1,
+      "alias": "11st",
+      "points": 0,
+      "order_points": 60
+    },
+    {
+      "id": 14,
+      "result_id": 1,
+      "alias": "12st",
+      "points": 0,
+      "order_points": 50
+    },
+    {
+      "id": 15,
+      "result_id": 1,
+      "alias": "13st",
+      "points": 0,
+      "order_points": 40
+    },
+    {
+      "id": 16,
+      "result_id": 1,
+      "alias": "14st",
+      "points": 0,
+      "order_points": 30
+    },
+    {
+      "id": 17,
+      "result_id": 1,
+      "alias": "15st",
+      "points": 0,
+      "order_points": 20
+    },
+    {
+      "id": 18,
+      "result_id": 1,
+      "alias": "16st",
+      "points": 0,
+      "order_points": 10
+    }
+  ],
+  "rounds": [
+    {
+      "id": 1,
+      "title": "Round A"
+    },
+    {
+      "id": 2,
+      "title": "Round B"
+    },
+    {
+      "id": 3,
+      "title": "Round C"
+    },
+    {
+      "id": 4,
+      "title": "Round D"
+    },
+    {
+      "id": 5,
+      "title": "Round E"
+    },
+    {
+      "id": 6,
+      "title": "Round F"
+    },
+    {
+      "id": 7,
+      "title": "Round G"
+    },
+    {
+      "id": 8,
+      "title": "Round H"
+    },
+    {
+      "id": 9,
+      "title": "Round J"
+    },
+    {
+      "id": 10,
+      "title": "Round K"
+    },
+    {
+      "id": 11,
+      "title": "Round L"
+    },
+    {
+      "id": 12,
+      "title": "Round M"
+    }
+  ],
+  "teams": [
+    {
+      "id": 1,
+      "title": "C0"
+    },
+    {
+      "id": 2,
+      "title": "04"
+    },
+    {
+      "id": 3,
+      "title": "30"
+    },
+    {
+      "id": 4,
+      "title": "D3"
+    },
+    {
+      "id": 5,
+      "title": "AD"
+    },
+    {
+      "id": 6,
+      "title": "0D"
+    },
+    {
+      "id": 7,
+      "title": "50"
+    },
+    {
+      "id": 8,
+      "title": "FF"
+    }
+  ],
+  "drivers": [
+    {
+      "id": 1,
+      "title": "6E63"
+    },
+    {
+      "id": 2,
+      "title": "A827"
+    },
+    {
+      "id": 3,
+      "title": "6592"
+    },
+    {
+      "id": 4,
+      "title": "454A"
+    },
+    {
+      "id": 5,
+      "title": "1838"
+    },
+    {
+      "id": 6,
+      "title": "EA78"
+    },
+    {
+      "id": 7,
+      "title": "B866"
+    },
+    {
+      "id": 8,
+      "title": "4D39"
+    },
+    {
+      "id": 9,
+      "title": "5376"
+    },
+    {
+      "id": 10,
+      "title": "9E16"
+    },
+    {
+      "id": 11,
+      "title": "0FD6"
+    },
+    {
+      "id": 12,
+      "title": "AD45"
+    },
+    {
+      "id": 13,
+      "title": "B9BA"
+    },
+    {
+      "id": 14,
+      "title": "6F7D"
+    },
+    {
+      "id": 15,
+      "title": "DE5B"
+    },
+    {
+      "id": 16,
+      "title": "E686"
+    }
+  ]
+}
