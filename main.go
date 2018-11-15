@@ -5,11 +5,11 @@ import (
 	"race-history-3/pages"
 )
 
-var Config libs.AppConfig
+var ApplicationConfig libs.AppConfig
 
 func main() {
 
-	Config = libs.ReadConfig()
+	ApplicationConfig = libs.ReadConfig()
 
-	pages.Init(Config)
+	pages.Init(ApplicationConfig)
 }

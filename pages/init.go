@@ -5,11 +5,11 @@ import (
 	"race-history-3/libs"
 )
 
-var Conf libs.AppConfig
+var ApplicationConfig libs.AppConfig
 
 func Init(Config libs.AppConfig) {
 
-	Conf = Config
+	ApplicationConfig = Config
 
 	r := gin.Default()
 
@@ -17,7 +17,7 @@ func Init(Config libs.AppConfig) {
 	r.GET("/championships", Championships)
 	r.GET("/championship/:id", Championship)
 
-	err := r.Run(Conf.GetHttpServerUrl())
+	err := r.Run(ApplicationConfig.GetHttpServerUrl())
 
 	if err != nil {
 		panic(err.Error())
