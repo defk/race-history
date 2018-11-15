@@ -8,6 +8,21 @@ import (
 
 type AppConfig interface {
 	GetHttpServerUrl() string
+	GetDbConnectParams() DbConnectParams
+}
+
+func (c Config) GetDbConnectParams() DbConnectParams {
+
+	return DbConnectParams{
+		DSN: fmt.Sprintf(
+			"postgres://%s:%s@%s:%d/%s",
+			c.Database.Postgres.User,
+			c.Database.Postgres.Pass,
+			c.Database.Postgres.Host,
+			c.Database.Postgres.Port,
+			c.Database.Postgres.Base,
+		),
+	}
 }
 
 func (c Config) GetHttpServerUrl() string {
