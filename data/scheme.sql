@@ -5,7 +5,7 @@
 -- Dumped from database version 10.6 (Ubuntu 10.6-1.pgdg14.04+1)
 -- Dumped by pg_dump version 11.1 (Ubuntu 11.1-1.pgdg14.04+1)
 
--- Started on 2018-11-14 17:30:02 MSK
+-- Started on 2018-11-16 21:58:27 MSK
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET row_security = off;
 
 DROP DATABASE race_history;
 --
--- TOC entry 2895 (class 1262 OID 16385)
+-- TOC entry 2898 (class 1262 OID 16385)
 -- Name: race_history; Type: DATABASE; Schema: -; Owner: -
 --
 
@@ -48,7 +48,9 @@ SET default_with_oids = false;
 CREATE TABLE public.championships (
     id integer NOT NULL,
     title character varying(15),
-    result_id integer
+    result_id integer,
+    winner_driver_id integer,
+    winner_team_id integer
 );
 
 
@@ -67,7 +69,7 @@ CREATE SEQUENCE public.championships_id_seq
 
 
 --
--- TOC entry 2896 (class 0 OID 0)
+-- TOC entry 2899 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: championships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -115,7 +117,7 @@ CREATE SEQUENCE public.drivers_id_seq
 
 
 --
--- TOC entry 2897 (class 0 OID 0)
+-- TOC entry 2900 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: drivers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -152,7 +154,7 @@ CREATE SEQUENCE public.result_points_id_seq
 
 
 --
--- TOC entry 2898 (class 0 OID 0)
+-- TOC entry 2901 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: result_points_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -186,7 +188,7 @@ CREATE SEQUENCE public.results_id_seq
 
 
 --
--- TOC entry 2899 (class 0 OID 0)
+-- TOC entry 2902 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -220,7 +222,7 @@ CREATE SEQUENCE public.rounds_id_seq
 
 
 --
--- TOC entry 2900 (class 0 OID 0)
+-- TOC entry 2903 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: rounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -254,7 +256,7 @@ CREATE SEQUENCE public.teams_id_seq
 
 
 --
--- TOC entry 2901 (class 0 OID 0)
+-- TOC entry 2904 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -311,7 +313,7 @@ ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_
 
 
 --
--- TOC entry 2748 (class 2606 OID 16393)
+-- TOC entry 2749 (class 2606 OID 16393)
 -- Name: championships championships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -320,16 +322,16 @@ ALTER TABLE ONLY public.championships
 
 
 --
--- TOC entry 2761 (class 2606 OID 16450)
+-- TOC entry 2762 (class 2606 OID 16450)
 -- Name: data data_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.data
-    ADD CONSTRAINT data_pkey PRIMARY KEY (championship_id, round_id, team_id, driver_id, result_points_id);
+    ADD CONSTRAINT data_pkey PRIMARY KEY (championship_id, round_id, team_id, driver_id, result_point_id);
 
 
 --
--- TOC entry 2754 (class 2606 OID 16417)
+-- TOC entry 2755 (class 2606 OID 16417)
 -- Name: drivers drivers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -338,7 +340,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 2759 (class 2606 OID 16433)
+-- TOC entry 2760 (class 2606 OID 16433)
 -- Name: result_points result_points_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -347,7 +349,7 @@ ALTER TABLE ONLY public.result_points
 
 
 --
--- TOC entry 2756 (class 2606 OID 16425)
+-- TOC entry 2757 (class 2606 OID 16425)
 -- Name: results results_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -356,7 +358,7 @@ ALTER TABLE ONLY public.results
 
 
 --
--- TOC entry 2750 (class 2606 OID 16401)
+-- TOC entry 2751 (class 2606 OID 16401)
 -- Name: rounds rounds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -365,7 +367,7 @@ ALTER TABLE ONLY public.rounds
 
 
 --
--- TOC entry 2752 (class 2606 OID 16409)
+-- TOC entry 2753 (class 2606 OID 16409)
 -- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -382,7 +384,15 @@ CREATE INDEX "FKI_championshipsResult_to_results" ON public.championships USING 
 
 
 --
--- TOC entry 2757 (class 1259 OID 16439)
+-- TOC entry 2747 (class 1259 OID 17474)
+-- Name: FKI_championshipsWinnderDriver_drivers; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "FKI_championshipsWinnderDriver_drivers" ON public.championships USING btree (winner_driver_id);
+
+
+--
+-- TOC entry 2758 (class 1259 OID 16439)
 -- Name: FKI_resultPoints_to_results; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -390,7 +400,7 @@ CREATE INDEX "FKI_resultPoints_to_results" ON public.result_points USING btree (
 
 
 --
--- TOC entry 2762 (class 2606 OID 16440)
+-- TOC entry 2763 (class 2606 OID 16440)
 -- Name: championships FK_championshipsResult_to_results; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -399,7 +409,25 @@ ALTER TABLE ONLY public.championships
 
 
 --
--- TOC entry 2768 (class 2606 OID 16451)
+-- TOC entry 2764 (class 2606 OID 17469)
+-- Name: championships FK_championshipsWinnderDriver_drivers; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.championships
+    ADD CONSTRAINT "FK_championshipsWinnderDriver_drivers" FOREIGN KEY (winner_driver_id) REFERENCES public.drivers(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2765 (class 2606 OID 17475)
+-- Name: championships FK_championshipsWinnerTeam_teams; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.championships
+    ADD CONSTRAINT "FK_championshipsWinnerTeam_teams" FOREIGN KEY (winner_driver_id) REFERENCES public.teams(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2771 (class 2606 OID 16451)
 -- Name: data FK_dataChampionship_to_Championships; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -408,7 +436,7 @@ ALTER TABLE ONLY public.data
 
 
 --
--- TOC entry 2766 (class 2606 OID 16481)
+-- TOC entry 2769 (class 2606 OID 16481)
 -- Name: data FK_dataDrivers_to_Drivers; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -417,16 +445,16 @@ ALTER TABLE ONLY public.data
 
 
 --
--- TOC entry 2767 (class 2606 OID 16486)
+-- TOC entry 2770 (class 2606 OID 16486)
 -- Name: data FK_dataResultPoint_to_ResultPoints; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.data
-    ADD CONSTRAINT "FK_dataResultPoint_to_ResultPoints" FOREIGN KEY (result_points_id) REFERENCES public.result_points(id) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT "FK_dataResultPoint_to_ResultPoints" FOREIGN KEY (result_point_id) REFERENCES public.result_points(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- TOC entry 2764 (class 2606 OID 16471)
+-- TOC entry 2767 (class 2606 OID 16471)
 -- Name: data FK_dataRound_to_Rounds; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -435,7 +463,7 @@ ALTER TABLE ONLY public.data
 
 
 --
--- TOC entry 2765 (class 2606 OID 16476)
+-- TOC entry 2768 (class 2606 OID 16476)
 -- Name: data FK_dataTeams_to_Teams; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -444,7 +472,7 @@ ALTER TABLE ONLY public.data
 
 
 --
--- TOC entry 2763 (class 2606 OID 16434)
+-- TOC entry 2766 (class 2606 OID 16434)
 -- Name: result_points FK_resultPoints_to_results; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -452,7 +480,7 @@ ALTER TABLE ONLY public.result_points
     ADD CONSTRAINT "FK_resultPoints_to_results" FOREIGN KEY (result_id) REFERENCES public.results(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2018-11-14 17:30:02 MSK
+-- Completed on 2018-11-16 21:58:27 MSK
 
 --
 -- PostgreSQL database dump complete
