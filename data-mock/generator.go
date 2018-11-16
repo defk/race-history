@@ -124,7 +124,11 @@ func generateResultsMock(items Mock) []ResultRow {
 
 		for _, roundId := range champ.RoundIds {
 
-			positions := items.ResultExt["v1"].Positions
+			positions := make([]int, len(items.ResultExt["v1"].Positions))
+
+			copy(positions, items.ResultExt["v1"].Positions)
+
+			fmt.Printf("%v\n", positions)
 
 			driverBestLap := rand.Intn(16)
 			driverPolePosition := rand.Intn(16)
